@@ -3,7 +3,7 @@ import { createContext,useState ,useEffect} from "react";
 
 import { initializeApp } from "firebase/app";
 
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup, onAuthStateChanged,signOut} from "firebase/auth"
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup, onAuthStateChanged,signOut, sendPasswordResetEmail,} from "firebase/auth"
 import {
     getFirestore,
     collection,
@@ -54,6 +54,9 @@ export const FirbaseProvider=(props)=>{
    return createUserWithEmailAndPassword(firebaseAuth,email,password)
 }
 
+const resetPassword = (email) => {
+  return sendPasswordResetEmail(firebaseAuth, email);
+};
 
 const signUserWithEmailAndPass=(email,password)=>{
    return signInWithEmailAndPassword(firebaseAuth,email,password);
@@ -105,7 +108,7 @@ const isLoggedIn=user?true:false;
     return(
         <FirebaseContext.Provider
         
-        value={{signupUserWithEmailAndPassword,signUserWithEmailAndPass,signWithGoogle,isLoggedIn, handleCreateNewListing,listAllBooks,logout, deleteBook}}
+        value={{signupUserWithEmailAndPassword,signUserWithEmailAndPass,signWithGoogle,isLoggedIn, handleCreateNewListing,listAllBooks,logout, deleteBook,resetPassword}}
         >
             {props.children}
         </FirebaseContext.Provider>
